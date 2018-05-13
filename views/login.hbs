@@ -1,0 +1,28 @@
+x
+<div>
+    <div class="header">
+        <span class="current-page">Login</span>
+        <span id="sign-up">Sign Up</span>
+    </div>
+
+    {{#if data}}
+    <div class="data">
+        {{data}}
+    </div>
+    {{/if}}
+
+
+    <form id="login-form">
+        <div class="text-field">
+            <label>Email</label>
+            <input type="email" name="email" autocapitalize="off" autocorrect="off" />
+        </div>
+        <div class="text-field">
+            <label>Password</label>
+            <input type="password" name="password" />
+            <div class="hide-show">
+                <span class="show">Show</span>
+            </div>
+        </div>
+        <button type="submit">Login</button>
+    </form>

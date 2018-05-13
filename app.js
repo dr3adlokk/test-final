@@ -1,48 +1,57 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var dotenv =require("dotenv").config();
-var hb = require ("express-handlebars")
-var bodyParser = require("body-parser");
-var errorHandler = require("error-handler");
-var mysql = require("mysql2");
-var Sequelize = require("sequelize");
-
-// var router = router.express();
-
-
-
-var indexRouter = require('./routes/html.js');
-var usersRouter = require('./routes/users.js');
-
+const express = require('express');
+const path = require('path');
+const hbs = require('express-handlebars')
+// const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+// const ejs = require('ejs');
 var app = express();
+// var router = express.Router
+var userindex = require ('./routes/html-routes.js')
+var userroutes = require('./routes/api-routes.js')
+// var index = require('./routes/index.js')
 
-// view engine setup
+
+
+// // var middleware = require('./routes/middleware.js')(app)
+// var login = require('./routes/login.js')(app)
+// var join = require('./routes/join')(app)
+
+// var member = require('./routes/member.js')(app)
+// var users = require('./routes/users.js')(app)
+// var join = require('./routes/join')(app)
+// app.engine('html', hbs.renderFile);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
+
 app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+// Static file configuration
+app.use('/client/static', express.static(path.join(__dirname, 'client/static')));
 
-// require("./routes/api.js")(app);
-// require("./routes/html.js")(app);
+
+// Return to all (/)URLs or routes index.html
+app.get('/', function (req, res) {
+  res.render('login.hbs');
+});
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
+app.use(function (req, res, next) {
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
 });
 
 // error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
+app.use(function (err, req, res, next) {
+  //set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
@@ -50,5 +59,9 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
 module.exports = app;
+
+
+
+
+

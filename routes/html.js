@@ -13,15 +13,6 @@ module.exports = function (app) {
       }
     });
   })
-  app.get('/signup', (req, res) => {
-    res.render('signup')
-  })
-  app.get('/login', (req, res) =>{
-    res.render('login')
-  } )
-  app.get('/members', (req, res) => {
-    res.render('members')
-  })
   // about
   app.get('/about', (req, res) => {
     res.render('about')
